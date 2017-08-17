@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.danmu.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.danmu.pojo.User" >
+    <constructor >
+      <idArg column="eamil" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="role" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="company" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createTtime" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="updateTime" jdbcType="DATE" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    eamil, password, role, company, phone, createTtime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from danmu_user
+    where eamil = #{eamil,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from danmu_user
+    where eamil = #{eamil,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.danmu.pojo.User" >
+    insert into danmu_user (eamil, password, role, 
+      company, phone, createTtime, 
+      updateTime)
+    values (#{eamil,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
+      #{company,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createttime,jdbcType=DATE}, 
+      #{updatetime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.danmu.pojo.User" >
+    insert into danmu_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eamil != null" >
+        eamil,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="createttime != null" >
+        createTtime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eamil != null" >
+        #{eamil,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createttime != null" >
+        #{createttime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.danmu.pojo.User" >
+    update danmu_user
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createttime != null" >
+        createTtime = #{createttime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=DATE},
+      </if>
+    </set>
+    where eamil = #{eamil,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.danmu.pojo.User" >
+    update danmu_user
+    set password = #{password,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      createTtime = #{createttime,jdbcType=DATE},
+      updateTime = #{updatetime,jdbcType=DATE}
+    where eamil = #{eamil,jdbcType=VARCHAR}
+  </update>
+  <select id="checkEmail" resultType="int" parameterType="string">
+    select count(1) from danmu_user
+    where eamil = #{email}
+  </select>
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    from danmu_user
+    where eamil = #{email}
+    and password = #{password}
+  </select>
+</mapper>
